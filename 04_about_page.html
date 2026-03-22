@@ -1,0 +1,237 @@
+<!--
+  SMART-КОШЕЛЕК — Страница «О проекте / Команда»
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>О проекте — Smart-кошелек</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #2EC4B6; --accent-light: #E8FAF8; --accent-dark: #1FA396;
+    --bg: #FFFFFF; --bg-soft: #F7F9FC; --text-primary: #1A1D2E;
+    --text-secondary: #6B7280; --text-light: #9CA3AF; --border: #E5E7EB;
+    --shadow: 0 4px 24px rgba(0,0,0,0.06); --radius: 16px; --radius-sm: 10px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Manrope', sans-serif; background: var(--bg); color: var(--text-primary); }
+
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 40px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.25rem; color: var(--text-primary); text-decoration: none; }
+  .nav-logo svg { width: 36px; height: 36px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; font-size: 0.95rem; transition: var(--transition); }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta { background: var(--accent); color: #fff; padding: 10px 24px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+
+  .page-container { max-width: 900px; margin: 0 auto; padding: 100px 24px 60px; }
+
+  /* О проекте */
+  .about-hero {
+    text-align: center; margin-bottom: 64px;
+  }
+  .about-hero h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: 16px; }
+  .about-hero p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+
+  /* Миссия */
+  .mission-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 72px;
+  }
+
+  .mission-card {
+    background: var(--bg-soft); border-radius: var(--radius); padding: 32px;
+    text-align: center; transition: var(--transition);
+  }
+  .mission-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .mission-icon { font-size: 2.5rem; margin-bottom: 16px; }
+  .mission-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+  .mission-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+
+  /* Команда */
+  .team-section { margin-bottom: 72px; }
+  .team-section h2 {
+    font-size: 1.8rem; font-weight: 800; text-align: center; margin-bottom: 40px;
+  }
+
+  .team-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;
+  }
+
+  .team-card {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 28px 20px; text-align: center; transition: var(--transition);
+  }
+  .team-card:hover { border-color: var(--accent); box-shadow: var(--shadow); transform: translateY(-4px); }
+
+  .team-avatar {
+    width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; font-weight: 800; color: #fff;
+  }
+
+  .team-card h4 { font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; }
+  .team-role {
+    font-size: 0.78rem; color: var(--accent-dark); font-weight: 600;
+    background: var(--accent-light); display: inline-block;
+    padding: 3px 10px; border-radius: 50px;
+  }
+
+  /* Технологии */
+  .tech-section { margin-bottom: 72px; }
+  .tech-section h2 { font-size: 1.8rem; font-weight: 800; text-align: center; margin-bottom: 32px; }
+
+  .tech-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+
+  .tech-item {
+    background: var(--bg-soft); border-radius: var(--radius-sm); padding: 20px;
+    text-align: center; transition: var(--transition);
+  }
+  .tech-item:hover { background: var(--accent-light); }
+  .tech-item .tech-icon { font-size: 2rem; margin-bottom: 8px; }
+  .tech-item h4 { font-size: 0.88rem; font-weight: 700; }
+  .tech-item span { font-size: 0.78rem; color: var(--text-light); }
+
+  /* Контакты */
+  .contact-section {
+    background: var(--bg-soft); border-radius: 24px; padding: 48px; text-align: center;
+  }
+  .contact-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; }
+  .contact-section p { color: var(--text-secondary); margin-bottom: 28px; font-size: 1rem; }
+
+  .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .contact-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 28px; border-radius: 50px; font-weight: 600;
+    font-size: 0.92rem; text-decoration: none; transition: var(--transition);
+    border: 2px solid var(--border); color: var(--text-primary); background: #fff;
+  }
+  .contact-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  @media (max-width: 768px) {
+    .mission-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    .tech-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="01_main_page.html" class="nav-logo">
+    <svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2EC4B6"/><path d="M10 18C10 13.58 13.58 10 18 10C22.42 10 26 13.58 26 18" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="18" cy="18" r="3" fill="#fff"/><path d="M18 21V26" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+    Smart-кошелек
+  </a>
+  <ul class="nav-links">
+    <li><a href="01_main_page.html">Главная</a></li>
+    <li><a href="02_tracker_page.html">Трекер расходов</a></li>
+    <li><a href="03_tips_page.html">Советы</a></li>
+    <li><a href="#" style="color:var(--accent)">О проекте</a></li>
+  </ul>
+  <a href="01_main_page.html" class="nav-cta">← На главную</a>
+</nav>
+
+<div class="page-container">
+  <!-- О проекте -->
+  <div class="about-hero">
+    <h1>О проекте Smart-кошелек</h1>
+    <p>Мы создали этот сервис, чтобы помочь молодёжи разобраться в личных финансах и научиться управлять бюджетом — просто, наглядно и без скучной теории.</p>
+  </div>
+
+  <!-- Миссия -->
+  <div class="mission-grid">
+    <div class="mission-card">
+      <div class="mission-icon">🎓</div>
+      <h3>Образование</h3>
+      <p>Делаем финансовую грамотность доступной и понятной для студентов</p>
+    </div>
+    <div class="mission-card">
+      <div class="mission-icon">🛠️</div>
+      <h3>Инструменты</h3>
+      <p>Даём практические инструменты для ежедневного контроля расходов</p>
+    </div>
+    <div class="mission-card">
+      <div class="mission-icon">🚀</div>
+      <h3>Мотивация</h3>
+      <p>Помогаем ставить цели и достигать их через правильные привычки</p>
+    </div>
+  </div>
+
+  <!-- Команда -->
+  <div class="team-section">
+    <h2>Наша команда</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar" style="background: linear-gradient(135deg, #3B82F6, #2563EB)">ЕМ</div>
+        <h4>Мехедов Евгений</h4>
+        <span class="team-role">Дизайнер</span>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background: linear-gradient(135deg, #EC4899, #DB2777)">НС</div>
+        <h4>Нечаева Софья</h4>
+        <span class="team-role">Дизайнер</span>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background: linear-gradient(135deg, #F59E0B, #D97706)">ХА</div>
+        <h4>Хабиров Артем</h4>
+        <span class="team-role">Контент-менеджер</span>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED)">БА</div>
+        <h4>Березина Алена</h4>
+        <span class="team-role">Контент-менеджер</span>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background: linear-gradient(135deg, #2EC4B6, #1FA396)">СМ</div>
+        <h4>Сапожников Михаил</h4>
+        <span class="team-role">Разработчик</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Технологии -->
+  <div class="tech-section">
+    <h2>Использованные технологии</h2>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <div class="tech-icon">🌐</div>
+        <h4>Tilda</h4>
+        <span>Конструктор сайтов</span>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🎨</div>
+        <h4>HTML/CSS</h4>
+        <span>Вёрстка и стили</span>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">⚡</div>
+        <h4>JavaScript</h4>
+        <span>Интерактивность</span>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">📐</div>
+        <h4>Figma</h4>
+        <span>Дизайн-макеты</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Контакты -->
+  <div class="contact-section">
+    <h2>Связаться с нами</h2>
+    <p>Есть вопросы или предложения? Мы всегда на связи!</p>
+    <div class="contact-links">
+      <a href="mailto:smart-koshelek@example.com" class="contact-btn">📧 Написать на почту</a>
+      <a href="#" class="contact-btn">💬 Telegram</a>
+      <a href="#" class="contact-btn">📱 VK</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

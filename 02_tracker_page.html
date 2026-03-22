@@ -1,0 +1,389 @@
+<!--
+  SMART-КОШЕЛЕК — Страница «Трекер расходов»
+  Вставить в Tilda: отдельная страница, блок T123
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Трекер расходов — Smart-кошелек</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #2EC4B6;
+    --accent-light: #E8FAF8;
+    --accent-dark: #1FA396;
+    --bg: #FFFFFF;
+    --bg-soft: #F7F9FC;
+    --text-primary: #1A1D2E;
+    --text-secondary: #6B7280;
+    --text-light: #9CA3AF;
+    --border: #E5E7EB;
+    --shadow: 0 4px 24px rgba(0,0,0,0.06);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --red: #EF4444;
+    --orange: #F59E0B;
+    --blue: #3B82F6;
+    --purple: #8B5CF6;
+    --pink: #EC4899;
+    --green: #10B981;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Manrope', sans-serif; background: var(--bg-soft); color: var(--text-primary); }
+
+  /* NAV (копия) */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border); padding: 0 40px;
+    height: 72px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 1.25rem; color: var(--text-primary); text-decoration: none;
+  }
+  .nav-logo svg { width: 36px; height: 36px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; font-size: 0.95rem; transition: var(--transition); }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent); color: #fff; padding: 10px 24px;
+    border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+    transition: var(--transition); border: none; cursor: pointer;
+  }
+  .nav-cta:hover { background: var(--accent-dark); }
+
+  /* MAIN */
+  .page-container {
+    max-width: 1100px; margin: 0 auto; padding: 100px 24px 60px;
+  }
+
+  .page-header {
+    margin-bottom: 36px;
+  }
+
+  .page-header h1 {
+    font-size: 2rem; font-weight: 800; margin-bottom: 8px;
+  }
+  .page-header p { color: var(--text-secondary); font-size: 1rem; }
+
+  /* Статистика сверху */
+  .stats-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px 24px; transition: var(--transition);
+  }
+  .stat-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+
+  .stat-label { font-size: 0.8rem; color: var(--text-light); font-weight: 500; margin-bottom: 6px; }
+  .stat-value { font-size: 1.6rem; font-weight: 800; }
+  .stat-change { font-size: 0.8rem; font-weight: 600; margin-top: 4px; }
+  .stat-change.positive { color: var(--green); }
+  .stat-change.negative { color: var(--red); }
+
+  /* Основная разметка */
+  .content-grid {
+    display: grid; grid-template-columns: 1fr 380px; gap: 24px;
+  }
+
+  /* Форма добавления расхода */
+  .add-expense {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 28px; margin-bottom: 24px;
+  }
+  .add-expense h3 { font-size: 1rem; font-weight: 700; margin-bottom: 20px; }
+
+  .form-row {
+    display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 12px; align-items: end;
+  }
+
+  .field label {
+    display: block; font-size: 0.78rem; color: var(--text-secondary);
+    margin-bottom: 6px; font-weight: 500;
+  }
+  .field input, .field select {
+    width: 100%; padding: 12px 14px; border: 2px solid var(--border);
+    border-radius: var(--radius-sm); font-size: 0.9rem; font-family: 'Manrope', sans-serif;
+    font-weight: 500; transition: var(--transition); background: var(--bg-soft);
+  }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--accent); background: #fff; }
+
+  .btn-add {
+    background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm);
+    padding: 12px 20px; font-weight: 700; cursor: pointer; transition: var(--transition);
+    font-size: 0.9rem; font-family: 'Manrope', sans-serif; white-space: nowrap;
+  }
+  .btn-add:hover { background: var(--accent-dark); }
+
+  /* Список расходов */
+  .expenses-list {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 28px;
+  }
+  .expenses-list h3 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+
+  .expense-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 0; border-bottom: 1px solid var(--border);
+    transition: var(--transition);
+  }
+  .expense-item:last-child { border-bottom: none; }
+  .expense-item:hover { background: var(--bg-soft); margin: 0 -14px; padding: 14px; border-radius: 10px; }
+
+  .expense-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+  }
+  .expense-details { flex: 1; }
+  .expense-name { font-weight: 600; font-size: 0.92rem; }
+  .expense-cat { font-size: 0.78rem; color: var(--text-light); }
+  .expense-amount { font-weight: 700; font-size: 1rem; color: var(--red); }
+  .expense-delete {
+    background: none; border: none; color: var(--text-light); cursor: pointer;
+    font-size: 1.2rem; padding: 4px; transition: var(--transition); border-radius: 6px;
+  }
+  .expense-delete:hover { color: var(--red); background: #FEE2E2; }
+
+  /* Правая колонка — диаграмма */
+  .side-panel {
+    display: flex; flex-direction: column; gap: 24px;
+  }
+
+  .chart-card {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 28px;
+  }
+  .chart-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 20px; }
+
+  .donut-container {
+    display: flex; justify-content: center; margin-bottom: 20px;
+  }
+
+  .legend { display: flex; flex-direction: column; gap: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .legend-label { flex: 1; color: var(--text-secondary); }
+  .legend-value { font-weight: 700; }
+
+  /* Советы */
+  .tips-card {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    border-radius: var(--radius); padding: 28px; color: #fff;
+  }
+  .tips-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+  .tips-card p { font-size: 0.9rem; opacity: 0.9; line-height: 1.6; }
+
+  @media (max-width: 768px) {
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .content-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="01_main_page.html" class="nav-logo">
+    <svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2EC4B6"/><path d="M10 18C10 13.58 13.58 10 18 10C22.42 10 26 13.58 26 18" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="18" cy="18" r="3" fill="#fff"/><path d="M18 21V26" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+    Smart-кошелек
+  </a>
+  <ul class="nav-links">
+    <li><a href="01_main_page.html">Главная</a></li>
+    <li><a href="#" style="color:var(--accent)">Трекер расходов</a></li>
+    <li><a href="03_tips_page.html">Советы</a></li>
+    <li><a href="04_about_page.html">О проекте</a></li>
+  </ul>
+  <a href="01_main_page.html" class="nav-cta">← На главную</a>
+</nav>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>📊 Трекер расходов</h1>
+    <p>Записывай расходы и анализируй, куда уходят деньги</p>
+  </div>
+
+  <!-- Статистика -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Бюджет на месяц</div>
+      <div class="stat-value" id="stat-budget">₽ 50 000</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Потрачено</div>
+      <div class="stat-value" id="stat-spent" style="color:var(--red)">₽ 0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Осталось</div>
+      <div class="stat-value" id="stat-remaining" style="color:var(--green)">₽ 50 000</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Записей</div>
+      <div class="stat-value" id="stat-count">0</div>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="main-col">
+      <!-- Добавить расход -->
+      <div class="add-expense">
+        <h3>➕ Добавить расход</h3>
+        <div class="form-row">
+          <div class="field">
+            <label>Название</label>
+            <input type="text" id="exp-name" placeholder="Например: Обед в кафе">
+          </div>
+          <div class="field">
+            <label>Сумма (₽)</label>
+            <input type="number" id="exp-amount" placeholder="500">
+          </div>
+          <div class="field">
+            <label>Категория</label>
+            <select id="exp-cat">
+              <option value="food">🍔 Еда</option>
+              <option value="transport">🚌 Транспорт</option>
+              <option value="entertainment">🎬 Развлечения</option>
+              <option value="education">📚 Образование</option>
+              <option value="clothes">👕 Одежда</option>
+              <option value="other">📦 Другое</option>
+            </select>
+          </div>
+          <button class="btn-add" onclick="addExpense()">Добавить</button>
+        </div>
+      </div>
+
+      <!-- Список расходов -->
+      <div class="expenses-list">
+        <h3>Последние расходы</h3>
+        <div id="expenses-container">
+          <p style="color:var(--text-light); text-align:center; padding:40px 0; font-size:0.95rem;">
+            Пока расходов нет. Добавь первый! ☝️
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-panel">
+      <!-- Диаграмма -->
+      <div class="chart-card">
+        <h3>Распределение по категориям</h3>
+        <div class="donut-container">
+          <svg id="donut-chart" width="180" height="180" viewBox="0 0 180 180">
+            <circle cx="90" cy="90" r="70" fill="none" stroke="#E5E7EB" stroke-width="24"/>
+            <text x="90" y="86" text-anchor="middle" font-size="18" font-weight="800" fill="#1A1D2E">₽ 0</text>
+            <text x="90" y="104" text-anchor="middle" font-size="11" fill="#9CA3AF">всего</text>
+          </svg>
+        </div>
+        <div class="legend" id="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#EF4444"></div><span class="legend-label">Еда</span><span class="legend-value">₽ 0</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#3B82F6"></div><span class="legend-label">Транспорт</span><span class="legend-value">₽ 0</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div><span class="legend-label">Развлечения</span><span class="legend-value">₽ 0</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#8B5CF6"></div><span class="legend-label">Образование</span><span class="legend-value">₽ 0</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#EC4899"></div><span class="legend-label">Одежда</span><span class="legend-value">₽ 0</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#6B7280"></div><span class="legend-label">Другое</span><span class="legend-value">₽ 0</span></div>
+        </div>
+      </div>
+
+      <div class="tips-card">
+        <h3>💡 Совет дня</h3>
+        <p>Попробуй правило «24 часов»: перед любой покупкой дороже 2000₽ подожди сутки. Это помогает избежать импульсивных трат.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CATEGORIES = {
+    food: { emoji: '🍔', name: 'Еда', color: '#EF4444', bg: '#FEE2E2' },
+    transport: { emoji: '🚌', name: 'Транспорт', color: '#3B82F6', bg: '#DBEAFE' },
+    entertainment: { emoji: '🎬', name: 'Развлечения', color: '#F59E0B', bg: '#FEF3C7' },
+    education: { emoji: '📚', name: 'Образование', color: '#8B5CF6', bg: '#EDE9FE' },
+    clothes: { emoji: '👕', name: 'Одежда', color: '#EC4899', bg: '#FCE7F3' },
+    other: { emoji: '📦', name: 'Другое', color: '#6B7280', bg: '#F3F4F6' }
+  };
+
+  let expenses = [];
+  const BUDGET = 50000;
+  const fmt = n => '₽ ' + n.toLocaleString('ru-RU');
+
+  function addExpense() {
+    const name = document.getElementById('exp-name').value.trim();
+    const amount = parseFloat(document.getElementById('exp-amount').value);
+    const cat = document.getElementById('exp-cat').value;
+    if (!name || !amount || amount <= 0) return alert('Заполни название и сумму!');
+
+    expenses.unshift({ id: Date.now(), name, amount, cat, date: new Date() });
+    document.getElementById('exp-name').value = '';
+    document.getElementById('exp-amount').value = '';
+    render();
+  }
+
+  function removeExpense(id) {
+    expenses = expenses.filter(e => e.id !== id);
+    render();
+  }
+
+  function render() {
+    const total = expenses.reduce((s, e) => s + e.amount, 0);
+    document.getElementById('stat-spent').textContent = fmt(total);
+    document.getElementById('stat-remaining').textContent = fmt(Math.max(0, BUDGET - total));
+    document.getElementById('stat-count').textContent = expenses.length;
+
+    // Список
+    const container = document.getElementById('expenses-container');
+    if (expenses.length === 0) {
+      container.innerHTML = '<p style="color:var(--text-light);text-align:center;padding:40px 0;font-size:0.95rem;">Пока расходов нет. Добавь первый! ☝️</p>';
+    } else {
+      container.innerHTML = expenses.map(e => {
+        const c = CATEGORIES[e.cat];
+        return `<div class="expense-item">
+          <div class="expense-icon" style="background:${c.bg}">${c.emoji}</div>
+          <div class="expense-details">
+            <div class="expense-name">${e.name}</div>
+            <div class="expense-cat">${c.name} • ${e.date.toLocaleDateString('ru-RU')}</div>
+          </div>
+          <div class="expense-amount">-${fmt(e.amount)}</div>
+          <button class="expense-delete" onclick="removeExpense(${e.id})">×</button>
+        </div>`;
+      }).join('');
+    }
+
+    // Кольцевая диаграмма
+    const catTotals = {};
+    for (const e of expenses) { catTotals[e.cat] = (catTotals[e.cat] || 0) + e.amount; }
+
+    const svg = document.getElementById('donut-chart');
+    const R = 70, C = 2 * Math.PI * R;
+    let offset = 0;
+    let arcs = '';
+
+    if (total > 0) {
+      for (const [cat, val] of Object.entries(catTotals)) {
+        const pct = val / total;
+        arcs += `<circle cx="90" cy="90" r="${R}" fill="none" stroke="${CATEGORIES[cat].color}" stroke-width="24" stroke-dasharray="${pct * C} ${C}" stroke-dashoffset="${-offset}" transform="rotate(-90 90 90)" style="transition:all 0.5s"/>`;
+        offset += pct * C;
+      }
+    }
+
+    svg.innerHTML = (total > 0 ? arcs : `<circle cx="90" cy="90" r="70" fill="none" stroke="#E5E7EB" stroke-width="24"/>`)
+      + `<text x="90" y="86" text-anchor="middle" font-size="18" font-weight="800" fill="#1A1D2E">${fmt(total)}</text>`
+      + `<text x="90" y="104" text-anchor="middle" font-size="11" fill="#9CA3AF">всего</text>`;
+
+    // Легенда
+    const legend = document.getElementById('chart-legend');
+    const catOrder = ['food','transport','entertainment','education','clothes','other'];
+    legend.innerHTML = catOrder.map(cat => {
+      const c = CATEGORIES[cat];
+      return `<div class="legend-item"><div class="legend-dot" style="background:${c.color}"></div><span class="legend-label">${c.name}</span><span class="legend-value">${fmt(catTotals[cat]||0)}</span></div>`;
+    }).join('');
+  }
+</script>
+</body>
+</html>

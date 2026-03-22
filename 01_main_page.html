@@ -1,0 +1,990 @@
+<!--
+  SMART-КОШЕЛЕК — Главная страница
+  Вставить в Tilda: Блок T123 (HTML-код) или Zero Block
+  Акцентный цвет: #2EC4B6 (мятно-зелёный)
+  Палитра: белый фон, пастельные тона, тёмный текст
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart-кошелек — Личные финансы и бюджетирование</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #2EC4B6;
+    --accent-light: #E8FAF8;
+    --accent-dark: #1FA396;
+    --bg: #FFFFFF;
+    --bg-soft: #F7F9FC;
+    --bg-card: #FFFFFF;
+    --text-primary: #1A1D2E;
+    --text-secondary: #6B7280;
+    --text-light: #9CA3AF;
+    --border: #E5E7EB;
+    --shadow: 0 4px 24px rgba(0,0,0,0.06);
+    --shadow-hover: 0 8px 40px rgba(46,196,182,0.15);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ===== НАВИГАЦИЯ ===== */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--transition);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .nav-logo svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    position: relative;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: var(--transition);
+  }
+
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+  }
+
+  .nav-cta:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(46,196,182,0.3);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 40px 80px;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(46,196,182,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(46,196,182,0.05) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-content {
+    max-width: 1200px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-text h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-text h1 span {
+    color: var(--accent);
+    position: relative;
+  }
+
+  .hero-text h1 span::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: rgba(46,196,182,0.15);
+    z-index: -1;
+    border-radius: 4px;
+  }
+
+  .hero-text p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 36px;
+    max-width: 480px;
+    line-height: 1.7;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    padding: 16px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    padding: 16px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: var(--transition);
+    border: 2px solid var(--border);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* Hero карточка-виджет */
+  .hero-widget {
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 36px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    position: relative;
+  }
+
+  .widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+
+  .widget-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .widget-badge {
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .widget-balance {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .widget-change {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .widget-chart {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 24px;
+  }
+
+  .widget-categories {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .cat-item {
+    background: var(--bg-soft);
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition);
+  }
+
+  .cat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  .cat-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .cat-info span {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-light);
+  }
+
+  .cat-info strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  /* ===== СЕКЦИЯ ПРЕИМУЩЕСТВА ===== */
+  .features {
+    padding: 100px 40px;
+    background: var(--bg);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 64px;
+  }
+
+  .section-tag {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .section-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+  }
+
+  .features-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px;
+    transition: var(--transition);
+    cursor: default;
+  }
+
+  .feature-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-4px);
+  }
+
+  .feature-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: var(--accent-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .feature-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .feature-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* ===== СЕКЦИЯ "КАК ЭТО РАБОТАЕТ" ===== */
+  .how-it-works {
+    padding: 100px 40px;
+    background: var(--bg-soft);
+  }
+
+  .steps-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .steps-container::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 56px;
+    bottom: 56px;
+    width: 2px;
+    background: var(--accent);
+    opacity: 0.2;
+  }
+
+  .step {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    padding: 28px 0;
+  }
+
+  .step-number {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-content h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .step-content p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 600px;
+  }
+
+  /* ===== ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР (превью) ===== */
+  .calculator-preview {
+    padding: 100px 40px;
+    background: var(--bg);
+  }
+
+  .calc-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .calc-info h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .calc-info p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    margin-bottom: 28px;
+    line-height: 1.7;
+  }
+
+  .calc-widget {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+  }
+
+  .calc-widget h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  .calc-field {
+    margin-bottom: 20px;
+  }
+
+  .calc-field label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .calc-field input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    transition: var(--transition);
+    background: var(--bg-soft);
+  }
+
+  .calc-field input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #fff;
+  }
+
+  .calc-result {
+    background: var(--accent-light);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .calc-result span {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+
+  .calc-result strong {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--accent-dark);
+  }
+
+  /* ===== CTA СЕКЦИЯ ===== */
+  .cta-section {
+    padding: 100px 40px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+
+  .cta-section h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-section p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 36px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-white {
+    background: #fff;
+    color: var(--accent-dark);
+    padding: 16px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-white:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: var(--text-primary);
+    color: rgba(255,255,255,0.7);
+    padding: 60px 40px 30px;
+  }
+
+  .footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand h3 {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .footer-brand p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .footer-col h4 {
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .footer-col a {
+    display: block;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    transition: var(--transition);
+  }
+
+  .footer-col a:hover {
+    color: var(--accent);
+  }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+  }
+
+  /* ===== АНИМАЦИИ ===== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in {
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+
+  /* ===== АДАПТИВНОСТЬ ===== */
+  @media (max-width: 768px) {
+    .hero-content { grid-template-columns: 1fr; text-align: center; }
+    .hero-text h1 { font-size: 2.4rem; }
+    .hero-text p { margin: 0 auto 28px; }
+    .hero-buttons { justify-content: center; }
+    .features-grid { grid-template-columns: 1fr; }
+    .calc-container { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .section-header h2 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- НАВИГАЦИЯ -->
+<nav class="nav">
+  <a href="#" class="nav-logo">
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="36" height="36" rx="10" fill="#2EC4B6"/>
+      <path d="M10 18C10 13.58 13.58 10 18 10C22.42 10 26 13.58 26 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="18" cy="18" r="3" fill="white"/>
+      <path d="M18 21V26" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    Smart-кошелек
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Возможности</a></li>
+    <li><a href="#how">Как это работает</a></li>
+    <li><a href="#calc">Калькулятор</a></li>
+    <li><a href="#team">Команда</a></li>
+  </ul>
+  <a href="#calc" class="nav-cta">Попробовать</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-text animate-in">
+      <h1>Управляй деньгами <span>умнее</span></h1>
+      <p>Smart-кошелек помогает молодёжи легко вести бюджет, отслеживать расходы и копить на цели. Просто, наглядно, эффективно.</p>
+      <div class="hero-buttons">
+        <a href="#calc" class="btn-primary">
+          Начать бесплатно
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </a>
+        <a href="#how" class="btn-secondary">Как это работает</a>
+      </div>
+    </div>
+    <div class="hero-widget animate-in delay-2">
+      <div class="widget-header">
+        <h3>Мой баланс</h3>
+        <span class="widget-badge">Март 2026</span>
+      </div>
+      <div class="widget-balance">₽ 84 250</div>
+      <div class="widget-change">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 12V4M8 4L4 8M8 4L12 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        +12.4% за месяц
+      </div>
+      <svg class="widget-chart" viewBox="0 0 400 120" fill="none">
+        <defs>
+          <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2EC4B6" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#2EC4B6" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0 100 Q50 90 100 70 T200 50 T300 30 T400 10" stroke="#2EC4B6" stroke-width="3" fill="none"/>
+        <path d="M0 100 Q50 90 100 70 T200 50 T300 30 T400 10 V120 H0 Z" fill="url(#chartGrad)"/>
+      </svg>
+      <div class="widget-categories">
+        <div class="cat-item">
+          <div class="cat-icon" style="background:#FEF3E2">🍔</div>
+          <div class="cat-info"><span>Еда</span><strong>₽ 12 400</strong></div>
+        </div>
+        <div class="cat-item">
+          <div class="cat-icon" style="background:#E8F4FD">🚌</div>
+          <div class="cat-info"><span>Транспорт</span><strong>₽ 3 800</strong></div>
+        </div>
+        <div class="cat-item">
+          <div class="cat-icon" style="background:#FDE8F0">🎬</div>
+          <div class="cat-info"><span>Развлечения</span><strong>₽ 5 200</strong></div>
+        </div>
+        <div class="cat-item">
+          <div class="cat-icon" style="background:#E8FAF8">📚</div>
+          <div class="cat-info"><span>Образование</span><strong>₽ 2 100</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРЕИМУЩЕСТВА -->
+<section class="features" id="features">
+  <div class="section-header animate-in">
+    <span class="section-tag">Возможности</span>
+    <h2>Всё для контроля финансов</h2>
+    <p>Простые инструменты, которые помогут тебе понять, куда уходят деньги, и начать копить</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card animate-in delay-1">
+      <div class="feature-icon">📊</div>
+      <h3>Трекер расходов</h3>
+      <p>Отслеживай каждую трату по категориям. Наглядные графики покажут, куда уходит больше всего.</p>
+    </div>
+    <div class="feature-card animate-in delay-2">
+      <div class="feature-icon">🎯</div>
+      <h3>Цели накоплений</h3>
+      <p>Ставь финансовые цели — новый гаджет, путешествие, подушка безопасности — и следи за прогрессом.</p>
+    </div>
+    <div class="feature-card animate-in delay-3">
+      <div class="feature-icon">🧮</div>
+      <h3>Калькулятор бюджета</h3>
+      <p>Рассчитай оптимальный бюджет на месяц по правилу 50/30/20 за пару кликов.</p>
+    </div>
+    <div class="feature-card animate-in delay-1">
+      <div class="feature-icon">💡</div>
+      <h3>Советы и лайфхаки</h3>
+      <p>Полезные статьи и советы по финансовой грамотности, написанные понятным языком.</p>
+    </div>
+    <div class="feature-card animate-in delay-2">
+      <div class="feature-icon">🔔</div>
+      <h3>Напоминания</h3>
+      <p>Настрой уведомления о платежах, подписках и лимитах, чтобы ничего не забыть.</p>
+    </div>
+    <div class="feature-card animate-in delay-3">
+      <div class="feature-icon">🔒</div>
+      <h3>Безопасность</h3>
+      <p>Все данные хранятся локально. Никакой передачи третьим лицам — твои финансы только твои.</p>
+    </div>
+  </div>
+</section>
+
+<!-- КАК ЭТО РАБОТАЕТ -->
+<section class="how-it-works" id="how">
+  <div class="section-header animate-in">
+    <span class="section-tag">3 простых шага</span>
+    <h2>Как это работает</h2>
+    <p>Начни управлять бюджетом прямо сейчас — это займёт не больше минуты</p>
+  </div>
+  <div class="steps-container">
+    <div class="step animate-in delay-1">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <h3>Укажи свой доход</h3>
+        <p>Введи зарплату, стипендию или другие источники дохода. Калькулятор автоматически разделит бюджет по категориям.</p>
+      </div>
+    </div>
+    <div class="step animate-in delay-2">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <h3>Отслеживай расходы</h3>
+        <p>Записывай траты по категориям — еда, транспорт, развлечения. Смотри статистику в реальном времени.</p>
+      </div>
+    </div>
+    <div class="step animate-in delay-3">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <h3>Достигай целей</h3>
+        <p>Ставь финансовые цели, следи за прогрессом и получай советы по оптимизации расходов.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КАЛЬКУЛЯТОР БЮДЖЕТА (интерактивный) -->
+<section class="calculator-preview" id="calc">
+  <div class="calc-container">
+    <div class="calc-info animate-in">
+      <span class="section-tag">Интерактивный инструмент</span>
+      <h2>Калькулятор бюджета 50/30/20</h2>
+      <p>Правило 50/30/20 — проверенный метод распределения дохода: 50% на обязательные расходы, 30% на желания, 20% на накопления. Попробуй прямо сейчас!</p>
+      <a href="#" class="btn-primary">Подробнее о методе →</a>
+    </div>
+    <div class="calc-widget animate-in delay-2">
+      <h3>💰 Рассчитай свой бюджет</h3>
+      <div class="calc-field">
+        <label>Твой ежемесячный доход (₽)</label>
+        <input type="number" id="income-input" placeholder="Например: 50 000" value="50000" oninput="calculateBudget()">
+      </div>
+      <div class="calc-result" style="background: #E8FAF8; margin-bottom: 12px;">
+        <span>🏠 Обязательные расходы (50%)</span>
+        <strong id="needs-result">₽ 25 000</strong>
+      </div>
+      <div class="calc-result" style="background: #FEF3E2; margin-bottom: 12px;">
+        <span>🎉 Желания (30%)</span>
+        <strong id="wants-result" style="color: #E8A838;">₽ 15 000</strong>
+      </div>
+      <div class="calc-result" style="background: #E8F4FD;">
+        <span>💎 Накопления (20%)</span>
+        <strong id="savings-result" style="color: #3B82F6;">₽ 10 000</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Готов взять финансы под контроль?</h2>
+  <p>Присоединяйся к тысячам молодых людей, которые уже управляют своим бюджетом с Smart-кошельком</p>
+  <a href="#calc" class="btn-white">
+    Начать прямо сейчас
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="team">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>Smart-кошелек</h3>
+      <p>Сервис для управления личными финансами и бюджетирования. Создан студентами для студентов.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Навигация</h4>
+      <a href="#features">Возможности</a>
+      <a href="#how">Как это работает</a>
+      <a href="#calc">Калькулятор</a>
+    </div>
+    <div class="footer-col">
+      <h4>Команда</h4>
+      <a href="#">Мехедов Евгений — дизайнер</a>
+      <a href="#">Нечаева Софья — дизайнер</a>
+      <a href="#">Хабиров Артем — контент</a>
+      <a href="#">Березина Алена — контент</a>
+      <a href="#">Сапожников Михаил — разработчик</a>
+    </div>
+    <div class="footer-col">
+      <h4>Ресурсы</h4>
+      <a href="#">Блог о финансах</a>
+      <a href="#">Советы по экономии</a>
+      <a href="#">FAQ</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Smart-кошелек. Все права защищены.</span>
+    <span>Лабораторная работа • Информационные технологии в менеджменте</span>
+  </div>
+</footer>
+
+<script>
+  function calculateBudget() {
+    const income = parseFloat(document.getElementById('income-input').value) || 0;
+    const fmt = n => '₽ ' + n.toLocaleString('ru-RU');
+    document.getElementById('needs-result').textContent = fmt(Math.round(income * 0.5));
+    document.getElementById('wants-result').textContent = fmt(Math.round(income * 0.3));
+    document.getElementById('savings-result').textContent = fmt(Math.round(income * 0.2));
+  }
+
+  // Анимация при скролле
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.animate-in').forEach(el => {
+    el.style.animationPlayState = 'paused';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>

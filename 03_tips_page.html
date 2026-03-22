@@ -1,0 +1,251 @@
+<!--
+  SMART-КОШЕЛЕК — Страница «Советы и статьи»
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Советы — Smart-кошелек</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #2EC4B6; --accent-light: #E8FAF8; --accent-dark: #1FA396;
+    --bg: #FFFFFF; --bg-soft: #F7F9FC; --text-primary: #1A1D2E;
+    --text-secondary: #6B7280; --text-light: #9CA3AF; --border: #E5E7EB;
+    --shadow: 0 4px 24px rgba(0,0,0,0.06); --radius: 16px; --radius-sm: 10px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Manrope', sans-serif; background: var(--bg-soft); color: var(--text-primary); }
+
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 40px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.25rem; color: var(--text-primary); text-decoration: none; }
+  .nav-logo svg { width: 36px; height: 36px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; font-size: 0.95rem; transition: var(--transition); }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta { background: var(--accent); color: #fff; padding: 10px 24px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+
+  .page-container { max-width: 900px; margin: 0 auto; padding: 100px 24px 60px; }
+  .page-header { margin-bottom: 40px; }
+  .page-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+  .page-header p { color: var(--text-secondary); font-size: 1rem; }
+
+  /* Табы */
+  .tabs { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+  .tab {
+    padding: 10px 22px; border-radius: 50px; border: 2px solid var(--border);
+    background: #fff; font-weight: 600; font-size: 0.88rem; cursor: pointer;
+    transition: var(--transition); font-family: 'Manrope', sans-serif; color: var(--text-secondary);
+  }
+  .tab:hover { border-color: var(--accent); color: var(--accent); }
+  .tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* Карточки статей */
+  .articles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  .article-card {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 28px; transition: var(--transition); cursor: pointer;
+  }
+  .article-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); border-color: var(--accent); }
+
+  .article-tag {
+    display: inline-block; background: var(--accent-light); color: var(--accent-dark);
+    padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; margin-bottom: 14px;
+  }
+  .article-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.4; }
+  .article-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 16px; }
+  .article-meta { display: flex; align-items: center; gap: 12px; font-size: 0.8rem; color: var(--text-light); }
+  .article-read-time { display: flex; align-items: center; gap: 4px; }
+
+  /* Раскрываемые блоки */
+  .accordion { margin-top: 48px; }
+  .accordion h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; }
+
+  .accordion-item {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    margin-bottom: 10px; overflow: hidden; transition: var(--transition);
+  }
+  .accordion-item:hover { border-color: var(--accent); }
+
+  .accordion-header {
+    padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between;
+    align-items: center; font-weight: 600; font-size: 0.95rem;
+    user-select: none; transition: var(--transition);
+  }
+  .accordion-header:hover { background: var(--bg-soft); }
+  .accordion-arrow { transition: var(--transition); font-size: 1.2rem; color: var(--text-light); }
+  .accordion-item.open .accordion-arrow { transform: rotate(180deg); color: var(--accent); }
+
+  .accordion-body {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+  }
+  .accordion-body-inner {
+    padding: 0 24px 20px; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7;
+  }
+  .accordion-item.open .accordion-body { max-height: 400px; }
+
+  @media (max-width: 768px) {
+    .articles-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="01_main_page.html" class="nav-logo">
+    <svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2EC4B6"/><path d="M10 18C10 13.58 13.58 10 18 10C22.42 10 26 13.58 26 18" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="18" cy="18" r="3" fill="#fff"/><path d="M18 21V26" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+    Smart-кошелек
+  </a>
+  <ul class="nav-links">
+    <li><a href="01_main_page.html">Главная</a></li>
+    <li><a href="02_tracker_page.html">Трекер расходов</a></li>
+    <li><a href="#" style="color:var(--accent)">Советы</a></li>
+    <li><a href="04_about_page.html">О проекте</a></li>
+  </ul>
+  <a href="01_main_page.html" class="nav-cta">← На главную</a>
+</nav>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>💡 Советы и статьи</h1>
+    <p>Финансовая грамотность простым языком — для студентов и молодёжи</p>
+  </div>
+
+  <!-- Табы -->
+  <div class="tabs">
+    <button class="tab active" onclick="filterArticles('all', this)">Все</button>
+    <button class="tab" onclick="filterArticles('budget', this)">Бюджет</button>
+    <button class="tab" onclick="filterArticles('savings', this)">Накопления</button>
+    <button class="tab" onclick="filterArticles('habits', this)">Привычки</button>
+    <button class="tab" onclick="filterArticles('invest', this)">Инвестиции</button>
+  </div>
+
+  <!-- Статьи -->
+  <div class="articles-grid" id="articles-grid">
+    <div class="article-card" data-cat="budget">
+      <span class="article-tag">Бюджет</span>
+      <h3>Правило 50/30/20: как распределить доход</h3>
+      <p>Простейший метод бюджетирования, который подойдёт каждому студенту. Разбираем на примерах.</p>
+      <div class="article-meta">
+        <span>📅 20 марта 2026</span>
+        <span class="article-read-time">⏱ 5 мин</span>
+      </div>
+    </div>
+
+    <div class="article-card" data-cat="savings">
+      <span class="article-tag" style="background:#E8F4FD;color:#2563EB;">Накопления</span>
+      <h3>Как начать копить с 0 рублей</h3>
+      <p>Пошаговая инструкция для тех, кто никогда не откладывал деньги. Спойлер: начать проще, чем кажется.</p>
+      <div class="article-meta">
+        <span>📅 18 марта 2026</span>
+        <span class="article-read-time">⏱ 7 мин</span>
+      </div>
+    </div>
+
+    <div class="article-card" data-cat="habits">
+      <span class="article-tag" style="background:#FEF3E2;color:#D97706;">Привычки</span>
+      <h3>7 финансовых привычек успешных людей</h3>
+      <p>Какие ежедневные привычки помогут тебе стать финансово грамотным уже через месяц.</p>
+      <div class="article-meta">
+        <span>📅 15 марта 2026</span>
+        <span class="article-read-time">⏱ 4 мин</span>
+      </div>
+    </div>
+
+    <div class="article-card" data-cat="invest">
+      <span class="article-tag" style="background:#EDE9FE;color:#7C3AED;">Инвестиции</span>
+      <h3>Первые инвестиции для студентов</h3>
+      <p>Куда вложить первые 5000₽? Разбираем вклады, облигации и акции простым языком.</p>
+      <div class="article-meta">
+        <span>📅 12 марта 2026</span>
+        <span class="article-read-time">⏱ 8 мин</span>
+      </div>
+    </div>
+
+    <div class="article-card" data-cat="budget">
+      <span class="article-tag">Бюджет</span>
+      <h3>Подписки, которые съедают бюджет</h3>
+      <p>Аудит подписок: как найти и отключить то, чем ты не пользуешься, и сэкономить до 3000₽ в месяц.</p>
+      <div class="article-meta">
+        <span>📅 10 марта 2026</span>
+        <span class="article-read-time">⏱ 3 мин</span>
+      </div>
+    </div>
+
+    <div class="article-card" data-cat="habits">
+      <span class="article-tag" style="background:#FEF3E2;color:#D97706;">Привычки</span>
+      <h3>Правило 24 часов: побеждаем импульсивные покупки</h3>
+      <p>Один простой трюк, который поможет тебе перестать тратить на то, что не нужно.</p>
+      <div class="article-meta">
+        <span>📅 8 марта 2026</span>
+        <span class="article-read-time">⏱ 3 мин</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ аккордеон -->
+  <div class="accordion">
+    <h2>Частые вопросы</h2>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>С чего начать вести бюджет?</span>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">Начни с простого: в течение недели записывай все свои расходы — буквально каждую покупку. Это поможет увидеть реальную картину. Затем раздели расходы на категории (еда, транспорт, развлечения) и установи лимиты на каждую. Используй наш трекер расходов для удобства!</div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Сколько нужно откладывать?</span>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">Классическая рекомендация — 20% от дохода. Но если это сложно, начни с малого: даже 5-10% уже создадут привычку. Главное — регулярность. Автоматизируй перевод на сберегательный счёт в день зарплаты, чтобы не тратить эти деньги.</div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Как перестать тратить на ненужное?</span>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">Попробуй правило 24 часов: перед любой покупкой дороже 2000₽ подожди сутки. Также полезно составить «список желаний» и ранжировать покупки по приоритету. Ещё один трюк — переведи стоимость в часы работы: «Эта вещь стоит 8 часов моей работы — она того стоит?»</div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Нужна ли подушка безопасности студенту?</span>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">Да! Даже если ты студент, финансовая подушка — это основа спокойствия. Идеально — 3 месяца расходов, но начни с 1 месяца. Это защитит от неожиданностей: сломался телефон, заболел, срочно нужны деньги на проект.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function filterArticles(cat, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.article-card').forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+    });
+  }
+
+  function toggleAccordion(header) {
+    const item = header.parentElement;
+    item.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
